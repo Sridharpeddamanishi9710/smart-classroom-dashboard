@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Classroom IoT Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, #1b4965, transparent 35%),
+        radial-gradient(circle at bottom right, #00b4d8, transparent 30%),
+        linear-gradient(135deg, #06101f, #0b132b, #1c2541);
+      color: white;
+      padding: 25px;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(16px);
+      border-radius: 22px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    .auth-page {
+      min-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .auth-box {
+      width: 390px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .auth-box h1 {
+      font-size: 24px;
+      color: #9be7ff;
+      margin-bottom: 8px;
+    }
+
+    .auth-box p {
+      color: #d6f3ff;
+      margin-bottom: 22px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 11px 18px;
+      margin: 7px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary {
+      background: #00d9ff;
+      color: #07111f;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .logout {
+      background: #ff5c5c;
+      color: white;
+    }
+
+    .error {
+      color: #ffb4b4;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .dashboard {
+      display: none;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .topbar {
+      padding: 22px 26px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .topbar h1 {
+      color: #9be7ff;
+      font-size: 28px;
+    }
+
+    .topbar p {
+      color: #d6f3ff;
+      margin-top: 5px;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      text-align: center;
+    }
+
+    .mini-card h3 {
+      color: #bdefff;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .mini-card .big {
+      font-size: 26px;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      padding: 24px;
+      min-height: 250px;
+    }
+
+    .card h2 {
+      color: #9be7ff;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 13px 0;
+      font-size: 16px;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .on {
+      background: rgba(0, 255, 136, 0.18);
+      color: #00ff88;
+    }
+
+    .off {
+      background: rgba(255, 92, 92, 0.18);
+      color: #ff7777;
+    }
+
+    .neutral {
+      background: rgba(255,255,255,0.18);
+      color: white;
+    }
+
+    .voltage {
+      font-size: 42px;
+      color: #00ffcc;
+      font-weight: bold;
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      padding: 18px;
+      color: #d6f3ff;
+      line-height: 1.8;
+    }
+
+    .online-dot {
+      width: 11px;
+      height: 11px;
+      background: #00ff88;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      box-shadow: 0 0 12px #00ff88;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-page" id="authPage">
+    <div class="auth-box glass">
+      <h1>MVSR Engineering College</h1>
+      <p>Smart Classroom Energy Automation Login</p>
+
+      <input type="email" id="email" placeholder="Enter college email">
+      <input type="password" id="password" placeholder="Enter password">
+
+      <button class="secondary" onclick="register()">Register</button>
+      <button class="primary" onclick="login()">Login</button>
+
+      <p class="error" id="authMsg"></p>
+    </div>
+  </div>
+
+  <div class="dashboard" id="dashboard">
+
+    <div class="topbar glass">
+      <div>
+        <h1>Zone-Based Smart Classroom Automation</h1>
+        <p>Batch 19 | IoT Real-Time Monitoring Dashboard</p>
+      </div>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="status-strip">
+      <div class="mini-card glass">
+        <h3>System Status</h3>
+        <div class="big"><span class="online-dot"></span>Online</div>
+      </div>
+
+      <div class="mini-card glass">
+        <h3>Occupied Zones</h3>
+        <div class="big" id="occupiedCount">--</div>
+      </div>
+
+      <div class="mini-card glass">
+        <h3>Active Devices</h3>
+        <div class="big" id="activeDevices">--</div>
+      </div>
+
+      <div class="mini-card glass">
+        <h3>Supply Voltage</h3>
+        <div class="big"><span id="topVoltage">--</span> V</div>
+      </div>
+    </div>
+
+    <div class="cards">
+
+      <div class="card glass">
+        <h2>Zone 1 - Light & Fan</h2>
+
+        <div class="row">
+          <span>Occupancy</span>
+          <span id="z1Occ" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Light</span>
+          <span id="z1Light" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Fan</span>
+          <span id="z1Fan" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Mode</span>
+          <span id="z1Mode" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Sensor Value</span>
+          <span id="z1Distance" class="badge neutral">--</span>
+        </div>
+      </div>
+
+      <div class="card glass">
+        <h2>Zone 2 - LED Only</h2>
+
+        <div class="row">
+          <span>Occupancy</span>
+          <span id="z2Occ" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>LED Status</span>
+          <span id="z2Light" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Mode</span>
+          <span id="z2Mode" class="badge neutral">--</span>
+        </div>
+
+        <div class="row">
+          <span>Sensor Value</span>
+          <span id="z2Distance" class="badge neutral">--</span>
+        </div>
+      </div>
+
+      <div class="card glass">
+        <h2>Power Monitoring</h2>
+        <p style="text-align:center; color:#d6f3ff;">Voltage Sensor Reading</p>
+        <div class="voltage"><span id="voltage">--</span> V</div>
+      </div>
+
+    </div>
+
+    <div class="footer glass">
+      <strong>Developed by:</strong><br>
+      P. Sridhar | Amear Shaik | R. Shiva<br>
+      Department of Information Technology, MVSR Engineering College
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRLDv5wDWZM9ol9BK33_66zxj8NZyA1CU",
+      authDomain: "smartclassroomiot-fbbe7.firebaseapp.com",
+      databaseURL: "https://smartclassroomiot-fbbe7-default-rtdb.firebaseio.com",
+      projectId: "smartclassroomiot-fbbe7",
+      storageBucket: "smartclassroomiot-fbbe7.firebasestorage.app",
+      messagingSenderId: "256748257735",
+      appId: "1:256748257735:web:30ad8172d160ee7a4ed9e2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    let zone1Data = {};
+    let zone2Data = {};
+
+    function updateBadge(id, value) {
+      const el = document.getElementById(id);
+      el.innerText = value ?? "--";
+      el.className = "badge neutral";
+
+      if (value === "ON" || value === "OCCUPIED") {
+        el.className = "badge on";
+      } else if (value === "OFF" || value === "EMPTY") {
+        el.className = "badge off";
+      }
+    }
+
+    function updateSummary() {
+      let occupied = 0;
+      let devices = 0;
+
+      if (zone1Data.occupancy === "OCCUPIED") occupied++;
+      if (zone2Data.occupancy === "OCCUPIED") occupied++;
+
+      if (zone1Data.light === "ON") devices++;
+      if (zone1Data.fan === "ON") devices++;
+      if (zone2Data.light === "ON") devices++;
+
+      document.getElementById("occupiedCount").innerText = occupied;
+      document.getElementById("activeDevices").innerText = devices;
+    }
+
+    window.register = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          signOut(auth);
+          document.getElementById("authMsg").innerText =
+            "Registration successful. Please login now.";
+        })
+        .catch((error) => {
+          document.getElementById("authMsg").innerText = error.message;
+        });
+    };
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+          document.getElementById("authMsg").innerText = error.message;
+        });
+    };
+
+    window.logout = function () {
+      signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("authPage").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+      } else {
+        document.getElementById("authPage").style.display = "flex";
+        document.getElementById("dashboard").style.display = "none";
+      }
+    });
+
+    onValue(ref(db, "zone1"), (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      zone1Data = data;
+
+      updateBadge("z1Occ", data.occupancy);
+      updateBadge("z1Light", data.light);
+      updateBadge("z1Fan", data.fan);
+      updateBadge("z1Mode", data.mode);
+      updateBadge("z1Distance", data.distance);
+
+      updateSummary();
+    });
+
+    onValue(ref(db, "zone2"), (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      zone2Data = data;
+
+      updateBadge("z2Occ", data.occupancy);
+      updateBadge("z2Light", data.light);
+      updateBadge("z2Mode", data.mode);
+      updateBadge("z2Distance", data.distance);
+
+      updateSummary();
+    });
+
+    onValue(ref(db, "voltage"), (snapshot) => {
+      const value = snapshot.val();
+      const v = value ? Number(value).toFixed(2) : "--";
+
+      document.getElementById("voltage").innerText = v;
+      document.getElementById("topVoltage").innerText = v;
+    });
+  </script>
+
+</body>
+</html>
