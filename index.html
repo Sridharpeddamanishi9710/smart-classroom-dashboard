@@ -253,7 +253,9 @@
     <div class="status-strip">
       <div class="mini-card glass">
         <h3>System Status</h3>
-        <div class="big"><span class="online-dot"></span>Online</div>
+        <div class="big" id="systemStatus">
+          <span class="online-dot"></span>Checking...
+        </div>
       </div>
 
       <div class="mini-card glass">
@@ -473,6 +475,41 @@
       document.getElementById("voltage").innerText = v;
       document.getElementById("topVoltage").innerText = v;
     });
+
+    onValue(ref(db, "voltage"), (snapshot) => {
+      const value = snapshot.val();
+      const v = value ? Number(value).toFixed(2) : "--";
+
+      document.getElementById("voltage").innerText = v;
+      document.getElementById("topVoltage").innerText = v;
+    });
+
+    let lastUpdateValue = 0;
+    let lastUpdateReceivedTime = Date.now();
+
+    onValue(ref(db, "lastUpdate"), (snapshot) => {
+      const value = snapshot.val();
+
+      if (value !== lastUpdateValue) {
+        lastUpdateValue = value;
+        lastUpdateReceivedTime = Date.now();
+      }
+    });
+
+    setInterval(() => {
+      const diff = Date.now() - lastUpdateReceivedTime;
+      const status = document.getElementById("systemStatus");
+
+      if (diff < 5000) {
+        status.innerHTML = '<span class="online-dot"></span>Online';
+        status.style.color = "#00ff88";
+      } else {
+        status.innerHTML = "🔴 Offline";
+        status.style.color = "#ff7777";
+      }
+    }, 1000);
+
+
   </script>
 
 </body>
