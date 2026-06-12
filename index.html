@@ -502,6 +502,21 @@ html {
     text-align:center;
     padding:8px 12px;
 }
+
+.control-btn.active{
+background:linear-gradient(
+135deg,
+#2f6bff,
+#6c2fff
+);
+
+color:white;
+
+box-shadow:
+0 0 20px rgba(108,47,255,.7);
+
+transform:translateY(-2px);
+}
   </style>
 </head>
 
@@ -636,8 +651,19 @@ html {
       <div class="card glass">
         <h2>Zone 1 Controls</h2>
 
-        <button class="control-btn auto-btn" onclick="setZone1Auto()">AUTO</button>
-        <button class="control-btn manual-btn" onclick="setZone1Manual()">MANUAL</button>
+       <button
+id="zone1Auto"
+class="control-btn auto-btn zone1-mode"
+onclick="setZone1Auto()">
+AUTO
+</button>
+
+<button
+id="zone1Manual"
+class="control-btn manual-btn zone1-mode"
+onclick="setZone1Manual()">
+MANUAL
+</button>
 
         <br><br>
 
@@ -651,8 +677,19 @@ html {
       <div class="card glass">
         <h2>Zone 2 Controls</h2>
 
-        <button class="control-btn auto-btn" onclick="setZone2Auto()">AUTO</button>
-        <button class="control-btn manual-btn" onclick="setZone2Manual()">MANUAL</button>
+      <button
+id="zone2Auto"
+class="control-btn auto-btn zone2-mode"
+onclick="setZone2Auto()">
+AUTO
+</button>
+
+<button
+id="zone2Manual"
+class="control-btn manual-btn zone2-mode"
+onclick="setZone2Manual()">
+MANUAL
+</button>
 
         <br><br>
 
@@ -886,6 +923,12 @@ document.getElementById("eventCount").innerText =
       addHistory("Zone1 Fan → " + data.fan);
 
       updateSummary();
+
+      if(data.mode==="AUTO")
+      highlightMode("zone1","Auto");
+
+      else
+      highlightMode("zone1","Manual");
     });
 
     onValue(ref(db, "zone2"), (snapshot) => {
@@ -903,6 +946,12 @@ document.getElementById("eventCount").innerText =
       addHistory("Zone2 LED → " + data.light);
 
       updateSummary();
+
+      if(data.mode==="AUTO")
+      highlightMode("zone2","Auto");
+
+      else
+      highlightMode("zone2","Manual");
     });
 
     onValue(ref(db, "voltage"), (snapshot) => {
@@ -1018,21 +1067,68 @@ document.getElementById("eventCount").innerText =
         set(ref(db, "zone2/lightControl"), 0);
         };
 
-    window.setZone1Auto = function () {
-        set(ref(db, "zone1/mode"), "AUTO");
-        };
+     function highlightMode(zone, mode){
 
-        window.setZone1Manual = function () {
-        set(ref(db, "zone1/mode"), "MANUAL");
-        };
+document
+.querySelectorAll(`.${zone}-mode`)
+.forEach(btn=>{
+btn.classList.remove("active");
+});
 
-        window.setZone2Auto = function () {
-        set(ref(db, "zone2/mode"), "AUTO");
-        };
+const selected =
+document.getElementById(
+`${zone}${mode}`
+);
 
-        window.setZone2Manual = function () {
-        set(ref(db, "zone2/mode"), "MANUAL");
-        };
+if(selected){
+selected.classList.add("active");
+}
+
+}
+
+window.setZone1Auto=function(){
+
+set(ref(db,"zone1/mode"),"AUTO");
+
+highlightMode(
+"zone1",
+"Auto"
+);
+
+};
+
+window.setZone1Manual=function(){
+
+set(ref(db,"zone1/mode"),"MANUAL");
+
+highlightMode(
+"zone1",
+"Manual"
+);
+
+};
+
+window.setZone2Auto=function(){
+
+set(ref(db,"zone2/mode"),"AUTO");
+
+highlightMode(
+"zone2",
+"Auto"
+);
+
+};
+
+window.setZone2Manual=function(){
+
+set(ref(db,"zone2/mode"),"MANUAL");
+
+highlightMode(
+"zone2",
+"Manual"
+);
+
+};
 
     window.showPage = function(page, btn) {
 
