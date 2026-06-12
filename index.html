@@ -667,11 +667,23 @@ MANUAL
 
         <br><br>
 
-        <button class="control-btn on-btn" onclick="zone1LightOn()">Light ON</button>
-        <button class="control-btn off-btn" onclick="zone1LightOff()">Light OFF</button>
+        <button
+class="control-btn on-btn"
+onclick="
+zone1LightOn();
+zone1FanOn();
+">
+ON
+</button>
 
-        <button class="control-btn on-btn" onclick="zone1FanOn()">Fan ON</button>
-        <button class="control-btn off-btn" onclick="zone1FanOff()">Fan OFF</button>
+<button
+class="control-btn off-btn"
+onclick="
+zone1LightOff();
+zone1FanOff();
+">
+OFF
+</button>
       </div>
 
       <div class="card glass">
