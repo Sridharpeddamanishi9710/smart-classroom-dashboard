@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Smart Classroom IoT Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     * {
@@ -11,15 +12,12 @@
       font-family: "Segoe UI", sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, #1b4965, transparent 35%),
-        radial-gradient(circle at bottom right, #00b4d8, transparent 30%),
-        linear-gradient(135deg, #06101f, #0b132b, #1c2541);
-      color: white;
-      padding: 25px;
-    }
+    body{
+  background:#040b1d;
+  color:white;
+  padding:0;
+  overflow-x:hidden;
+}
 
     .glass {
       background: rgba(255, 255, 255, 0.12);
@@ -100,20 +98,31 @@
     }
 
     .dashboard {
-      display: none;
-      max-width: 1200px;
-      margin: auto;
-    }
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+}
 
-    .topbar {
-      padding: 22px 26px;
-      margin-bottom: 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
+    .topbar{
+  background:
+  linear-gradient(
+    135deg,
+    #08152f,
+    #061f52
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:24px;
+
+  padding:30px;
+
+  margin-bottom:20px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
     .topbar h1 {
       color: #9be7ff;
@@ -132,22 +141,38 @@
       margin-bottom: 22px;
     }
 
-    .mini-card {
-      padding: 18px;
-      text-align: center;
-    }
+    .mini-card{
+  padding:24px;
+  border-radius:22px;
+  text-align:left;
+}
 
-    .mini-card h3 {
-      color: #bdefff;
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
+.mini-card h3{
+  color:#c8d6ff;
+}
 
-    .mini-card .big {
-      font-size: 26px;
-      font-weight: bold;
-      color: #00ffcc;
-    }
+.mini-card .big{
+  font-size:22px;
+  margin-top:10px;
+}
+
+
+
+.status-strip .mini-card:nth-child(1){
+  box-shadow:0 0 25px #7b2fff40;
+}
+
+.status-strip .mini-card:nth-child(2){
+  box-shadow:0 0 25px #007bff40;
+}
+
+.status-strip .mini-card:nth-child(3){
+  box-shadow:0 0 25px #00ff8840;
+}
+
+.status-strip .mini-card:nth-child(4){
+  box-shadow:0 0 25px #ff880040;
+}
 
     .cards {
       display: grid;
@@ -155,10 +180,10 @@
       gap: 22px;
     }
 
-    .card {
-      padding: 24px;
-      min-height: 250px;
-    }
+    .card{
+    padding:20px;
+    min-height:auto;
+}
 
     .card h2 {
       color: #9be7ff;
@@ -220,42 +245,302 @@
       margin-right: 8px;
       box-shadow: 0 0 12px #00ff88;
     }
+
+    .control-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.control-btn {
+  min-width: 110px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auto-btn {
+  background: #00d9ff;
+  color: #07111f;
+}
+
+.manual-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.on-btn {
+  background: #00c853;
+  color: white;
+}
+
+.off-btn {
+  background: #ff5252;
+  color: white;
+}
+
+.control-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+#navBar{
+  justify-content:center;
+}
+
+.nav-btn{
+  min-width:180px;
+  padding:16px;
+  font-size:17px;
+  border-radius:14px;
+}
+
+.nav-active{
+  background:linear-gradient(
+  135deg,
+  #2f6bff,
+  #6c2fff
+  ) !important;
+
+  color:white !important;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  body {
+    padding: 12px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 20px;
+  }
+
+  .status-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mini-card .big {
+    font-size: 18px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .auth-box {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .control-btn {
+    min-width: 100%;
+  }
+
+  .nav-btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .status-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar h1 {
+    font-size: 18px;
+  }
+
+  .voltage {
+    font-size: 28px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.timeline-item{
+    padding:12px 15px;
+    margin-bottom:10px;
+    background:#0c1a38;
+    border-left:4px solid #00d9ff;
+    border-radius:10px;
+    color:white;
+    font-size:14px;
+}
+
+.history-layout{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.timeline-card,
+.summary-card{
+  padding:25px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+
+  background:#0d1d42;
+
+  padding:15px;
+  margin-top:12px;
+
+  border-radius:12px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.card{
+    padding:20px;
+    border-radius:20px;
+}
+
+.card p{
+    margin-top:15px;
+    margin-bottom:5px;
+    color:#c8d6ff;
+}
+
+.badge{
+    padding:10px 15px;
+    border-radius:10px;
+    display:inline-block;
+    min-width:120px;
+    text-align:center;
+}
+
+.badge.on{
+    background:#00ff8840;
+    color:#00ff88;
+}
+
+.badge.off{
+    background:#ff555540;
+    color:#ff7777;
+}
+
+.badge.neutral{
+    background:#1b2a4d;
+    color:white;
+}
+
+.zone-cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:10px;
+}
+
+.card{
+    padding:20px;
+    border-radius:18px;
+    height:auto;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:12px 0;
+}
+
+.info-row span{
+    color:#d8e2ff;
+    font-size:15px;
+}
+
+.badge{
+    min-width:90px;
+    text-align:center;
+    padding:8px 12px;
+}
   </style>
 </head>
 
 <body>
 
-  <div class="auth-page" id="authPage">
-    <div class="auth-box glass">
-      <h1>MVSR Engineering College</h1>
-      <p>Smart Classroom Energy Automation Login</p>
+<!-- AUTH PAGE (UNCHANGED) -->
+<div class="auth-page" id="authPage">
+  <div class="auth-box glass">
+    <h1>MVSR Engineering College</h1>
+    <p>Smart Classroom Energy Automation Login</p>
 
-      <input type="email" id="email" placeholder="Enter college email">
-      <input type="password" id="password" placeholder="Enter password">
+    <input type="email" id="email" placeholder="Enter college email">
+    <input type="password" id="password" placeholder="Enter password">
 
-      <button class="secondary" onclick="register()">Register</button>
-      <button class="primary" onclick="login()">Login</button>
+    <button class="secondary" onclick="register()">Register</button>
+    <button class="primary" onclick="login()">Login</button>
 
-      <p class="error" id="authMsg"></p>
+    <p class="error" id="authMsg"></p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <!-- TOP BAR -->
+  <div class="topbar glass">
+    <div>
+      <h1>Smart Classroom IoT System</h1>
+      <p>MVSR Engineering College | Real-time Monitoring</p>
     </div>
+    <button class="logout" onclick="logout()">Logout</button>
   </div>
 
-  <div class="dashboard" id="dashboard">
+  <!-- NAVIGATION -->
+  <div id="navBar" class="glass" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; padding:10px;">
+  <button class="nav-btn primary nav-active" onclick="showPage('home', this)">Home</button>
+  <button class="nav-btn secondary" onclick="showPage('controls', this)">Controls</button>
+  <button class="nav-btn secondary" onclick="showPage('history', this)">History</button>
+  <button class="nav-btn secondary" onclick="showPage('settings', this)">Settings</button>
+</div>
 
-    <div class="topbar glass">
-      <div>
-        <h1>Zone-Based Smart Classroom Automation</h1>
-        <p>Batch 19 | IoT Real-Time Monitoring Dashboard</p>
-      </div>
-      <button class="logout" onclick="logout()">Logout</button>
-    </div>
+  <!-- ================= HOME ================= -->
+  <div id="homePage">
 
     <div class="status-strip">
       <div class="mini-card glass">
         <h3>System Status</h3>
-        <div class="big" id="systemStatus">
-          <span class="online-dot"></span>Checking...
-        </div>
+        <div class="big" id="systemStatus">Checking...</div>
       </div>
 
       <div class="mini-card glass">
@@ -269,85 +554,188 @@
       </div>
 
       <div class="mini-card glass">
-        <h3>Supply Voltage</h3>
-        <div class="big"><span id="topVoltage">--</span> V</div>
+        <h3>Voltage</h3>
+        <div class="big" id="topVoltage">-- V</div>
       </div>
     </div>
+
+ <div class="zone-cards">
+
+  <!-- Zone 1 -->
+  <div class="card glass">
+    <h2>Zone 1</h2>
+
+    <div class="info-row">
+      <span>Occupancy</span>
+      <div id="z1Occ" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Light</span>
+      <div id="z1Light" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Fan</span>
+      <div id="z1Fan" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Mode</span>
+      <div id="z1Mode" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Sensor Value</span>
+      <div id="z1Distance" class="badge neutral">--</div>
+    </div>
+  </div>
+
+  <!-- Zone 2 -->
+  <div class="card glass">
+    <h2>Zone 2</h2>
+
+    <div class="info-row">
+      <span>Occupancy</span>
+      <div id="z2Occ" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>LED Status</span>
+      <div id="z2Light" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Mode</span>
+      <div id="z2Mode" class="badge neutral">--</div>
+    </div>
+
+    <div class="info-row">
+      <span>Sensor Value</span>
+      <div id="z2Distance" class="badge neutral">--</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <!-- ================= CONTROLS ================= -->
+  <div id="controlsPage" style="display:none;">
 
     <div class="cards">
 
       <div class="card glass">
-        <h2>Zone 1 - Light & Fan</h2>
+        <h2>Zone 1 Controls</h2>
 
-        <div class="row">
-          <span>Occupancy</span>
-          <span id="z1Occ" class="badge neutral">--</span>
-        </div>
+        <button class="control-btn auto-btn" onclick="setZone1Auto()">AUTO</button>
+        <button class="control-btn manual-btn" onclick="setZone1Manual()">MANUAL</button>
 
-        <div class="row">
-          <span>Light</span>
-          <span id="z1Light" class="badge neutral">--</span>
-        </div>
+        <br><br>
 
-        <div class="row">
-          <span>Fan</span>
-          <span id="z1Fan" class="badge neutral">--</span>
-        </div>
+        <button class="control-btn on-btn" onclick="zone1LightOn()">Light ON</button>
+        <button class="control-btn off-btn" onclick="zone1LightOff()">Light OFF</button>
 
-        <div class="row">
-          <span>Mode</span>
-          <span id="z1Mode" class="badge neutral">--</span>
-        </div>
-
-        <div class="row">
-          <span>Sensor Value</span>
-          <span id="z1Distance" class="badge neutral">--</span>
-        </div>
+        <button class="control-btn on-btn" onclick="zone1FanOn()">Fan ON</button>
+        <button class="control-btn off-btn" onclick="zone1FanOff()">Fan OFF</button>
       </div>
 
       <div class="card glass">
-        <h2>Zone 2 - LED Only</h2>
+        <h2>Zone 2 Controls</h2>
 
-        <div class="row">
-          <span>Occupancy</span>
-          <span id="z2Occ" class="badge neutral">--</span>
-        </div>
+        <button class="control-btn auto-btn" onclick="setZone2Auto()">AUTO</button>
+        <button class="control-btn manual-btn" onclick="setZone2Manual()">MANUAL</button>
 
-        <div class="row">
-          <span>LED Status</span>
-          <span id="z2Light" class="badge neutral">--</span>
-        </div>
+        <br><br>
 
-        <div class="row">
-          <span>Mode</span>
-          <span id="z2Mode" class="badge neutral">--</span>
-        </div>
-
-        <div class="row">
-          <span>Sensor Value</span>
-          <span id="z2Distance" class="badge neutral">--</span>
-        </div>
-      </div>
-
-      <div class="card glass">
-        <h2>Power Monitoring</h2>
-        <p style="text-align:center; color:#d6f3ff;">Voltage Sensor Reading</p>
-        <div class="voltage"><span id="voltage">--</span> V</div>
+        <button class="control-btn on-btn" onclick="zone2LightOn()">LED ON</button>
+        <button class="control-btn off-btn" onclick="zone2LightOff()">LED OFF</button>
       </div>
 
     </div>
+  </div>
 
-    <div class="footer glass">
-      <strong>Developed by:</strong><br>
-      P. Sridhar | Amear Shaik | R. Shiva<br>
-      Department of Information Technology, MVSR Engineering College
-    </div>
+  <!-- ================= HISTORY ================= -->
+  <div id="historyPage" style="display:none;">
+
+    <div class="history-layout">
+
+  <div class="timeline-card glass">
+
+      <h2>System Activity Timeline</h2>
+
+      <div id="historyLog"></div>
 
   </div>
 
+  <div class="summary-card glass">
+
+      <h2>Daily Summary</h2>
+
+      <div class="summary-row">
+  Average Voltage
+  <span id="avgVoltage">--</span>
+</div>
+
+<div class="summary-row">
+  Highest Voltage
+  <span id="maxVoltage">--</span>
+</div>
+
+<div class="summary-row">
+  Lowest Voltage
+  <span id="minVoltage">--</span>
+</div>
+
+<div class="summary-row">
+  Total Events
+  <span id="eventCount">0</span>
+</div>
+
+  </div>
+
+</div>
+
+  </div>
+
+  <!-- ================= SETTINGS ================= -->
+  <div id="settingsPage" style="display:none;">
+
+  <div class="card glass">
+    <h2>System Settings</h2>
+
+    <p><b>Mode Info</b></p>
+    <p style="opacity:0.8">
+      AUTO → Sensor controlled system<br>
+      MANUAL → App controlled system
+    </p>
+
+    <hr>
+
+    <p><b>Quick Reset</b></p>
+
+    <button class="logout" onclick="resetSystem()">
+      Reset All Devices
+    </button>
+
+    <hr>
+
+    <p><b>System Health</b></p>
+    <p>Last Update: <span id="lastUpdateText">--</span></p>
+  </div>
+
+</div>
+
+</div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import {
+      getDatabase,
+      ref,
+      onValue,
+      set
+    } from
+    "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import {
       getAuth,
       createUserWithEmailAndPassword,
@@ -373,17 +761,50 @@
     let zone1Data = {};
     let zone2Data = {};
 
-    function updateBadge(id, value) {
-      const el = document.getElementById(id);
-      el.innerText = value ?? "--";
-      el.className = "badge neutral";
+    let historyLogs = [];
 
-      if (value === "ON" || value === "OCCUPIED") {
-        el.className = "badge on";
-      } else if (value === "OFF" || value === "EMPTY") {
-        el.className = "badge off";
-      }
+    let voltageHistory = [];
+    let totalEvents = 0;
+
+    function addHistory(text) {
+    const time = new Date().toLocaleTimeString();
+
+    historyLogs.unshift(`[${time}] ${text}`);
+
+    if (historyLogs.length > 15) {
+        historyLogs.pop();
     }
+    totalEvents++;
+
+document.getElementById("eventCount").innerText =
+    totalEvents;
+
+    document.getElementById("historyLog").innerHTML =
+        historyLogs.map(h => `
+<div class="timeline-item">
+  ${h}
+</div>
+`).join("")
+    }
+
+    function updateBadge(id, value) {
+
+    const el = document.getElementById(id);
+
+    if (!el) {
+        console.error("Missing HTML element:", id);
+        return;
+    }
+
+    el.innerText = value ?? "--";
+    el.className = "badge neutral";
+
+    if (value === "ON" || value === "OCCUPIED") {
+        el.className = "badge on";
+    } else if (value === "OFF" || value === "EMPTY") {
+        el.className = "badge off";
+    }
+}
 
     function updateSummary() {
       let occupied = 0;
@@ -451,6 +872,10 @@
       updateBadge("z1Mode", data.mode);
       updateBadge("z1Distance", data.distance);
 
+      addHistory("Zone1 → " + data.occupancy);
+      addHistory("Zone1 Light → " + data.light);
+      addHistory("Zone1 Fan → " + data.fan);
+
       updateSummary();
     });
 
@@ -465,6 +890,9 @@
       updateBadge("z2Mode", data.mode);
       updateBadge("z2Distance", data.distance);
 
+      addHistory("Zone2 → " + data.occupancy);
+      addHistory("Zone2 LED → " + data.light);
+
       updateSummary();
     });
 
@@ -472,17 +900,42 @@
       const value = snapshot.val();
       const v = value ? Number(value).toFixed(2) : "--";
 
-      document.getElementById("voltage").innerText = v;
       document.getElementById("topVoltage").innerText = v;
+
+      addHistory("Voltage → " + v + " V");
     });
 
     onValue(ref(db, "voltage"), (snapshot) => {
-      const value = snapshot.val();
-      const v = value ? Number(value).toFixed(2) : "--";
 
-      document.getElementById("voltage").innerText = v;
-      document.getElementById("topVoltage").innerText = v;
-    });
+  const value = snapshot.val();
+
+  if(value == null) return;
+
+  const v = Number(value);
+
+  voltageHistory.push(v);
+
+  if(voltageHistory.length > 100){
+      voltageHistory.shift();
+  }
+
+  const avg =
+      voltageHistory.reduce((a,b)=>a+b,0)
+      / voltageHistory.length;
+
+  const max = Math.max(...voltageHistory);
+  const min = Math.min(...voltageHistory);
+
+  document.getElementById("avgVoltage").innerText =
+      avg.toFixed(2) + " V";
+
+  document.getElementById("maxVoltage").innerText =
+      max.toFixed(2) + " V";
+
+  document.getElementById("minVoltage").innerText =
+      min.toFixed(2) + " V";
+
+});
 
     let lastUpdateValue = 0;
     let lastUpdateReceivedTime = Date.now();
@@ -493,6 +946,9 @@
       if (value !== lastUpdateValue) {
         lastUpdateValue = value;
         lastUpdateReceivedTime = Date.now();
+
+        document.getElementById("lastUpdateText").innerText =
+        new Date().toLocaleString();
       }
     });
 
@@ -500,14 +956,100 @@
       const diff = Date.now() - lastUpdateReceivedTime;
       const status = document.getElementById("systemStatus");
 
-      if (diff < 5000) {
+      if (diff < 7000) {
         status.innerHTML = '<span class="online-dot"></span>Online';
         status.style.color = "#00ff88";
       } else {
-        status.innerHTML = "🔴 Offline";
-        status.style.color = "#ff7777";
-      }
+      status.innerHTML = "🔴 Offline";
+      status.style.color = "#ff7777";
+
+      document.getElementById("topVoltage").innerText = "0.00";
+      document.getElementById("occupiedCount").innerText = "0";
+      document.getElementById("activeDevices").innerText = "0";
+
+      document.getElementById("avgVoltage").innerText = "--";
+      document.getElementById("maxVoltage").innerText = "--";
+      document.getElementById("minVoltage").innerText = "--";
+      totalEvents = 0;
+      document.getElementById("eventCount").innerText = "0";
+
+      voltageHistory = [];
+
+        document.getElementById("avgVoltage").innerText = "--";
+        document.getElementById("maxVoltage").innerText = "--";
+        document.getElementById("minVoltage").innerText = "--";
+
+        totalEvents = 0;
+        document.getElementById("eventCount").innerText = "0";
+    }
     }, 1000);
+
+
+    window.zone1LightOn = function () {
+        set(ref(db, "zone1/lightControl"), 1);
+        };
+
+        window.zone1LightOff = function () {
+        set(ref(db, "zone1/lightControl"), 0);
+        };
+
+        window.zone1FanOn = function () {
+        set(ref(db, "zone1/fanControl"), 1);
+        };
+
+        window.zone1FanOff = function () {
+        set(ref(db, "zone1/fanControl"), 0);
+        };
+
+        window.zone2LightOn = function () {
+        set(ref(db, "zone2/lightControl"), 1);
+        };
+
+        window.zone2LightOff = function () {
+        set(ref(db, "zone2/lightControl"), 0);
+        };
+
+    window.setZone1Auto = function () {
+        set(ref(db, "zone1/mode"), "AUTO");
+        };
+
+        window.setZone1Manual = function () {
+        set(ref(db, "zone1/mode"), "MANUAL");
+        };
+
+        window.setZone2Auto = function () {
+        set(ref(db, "zone2/mode"), "AUTO");
+        };
+
+        window.setZone2Manual = function () {
+        set(ref(db, "zone2/mode"), "MANUAL");
+        };
+
+    window.showPage = function(page, btn) {
+
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("controlsPage").style.display = "none";
+  document.getElementById("historyPage").style.display = "none";
+  document.getElementById("settingsPage").style.display = "none";
+
+  document.getElementById(page + "Page").style.display = "block";
+
+  // active tab UI
+  let buttons = document.querySelectorAll(".nav-btn");
+  buttons.forEach(b => b.classList.remove("nav-active"));
+
+  if (btn) btn.classList.add("nav-active");
+};
+
+window.resetSystem = function () {
+  set(ref(db, "zone1/mode"), "AUTO");
+  set(ref(db, "zone2/mode"), "AUTO");
+  set(ref(db, "zone1/lightControl"), 0);
+  set(ref(db, "zone1/fanControl"), 0);
+  set(ref(db, "zone2/lightControl"), 0);
+};
+
+
 
 
   </script>
